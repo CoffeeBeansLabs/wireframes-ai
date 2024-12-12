@@ -1,0 +1,18 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { AppContainer } from '../components/AppContainer';
+---
+
+<Layout title="AI Wireframe Generator">
+  <main class="min-h-screen bg-dark p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-4xl md:text-5xl font-bold text-white text-center mb-6 bg-gradient-to-r from-primary to-primary-hover bg-clip-text text-transparent">
+        AI Wireframe Generator
+      </h1>
+      <p class="text-lg text-gray-400 text-center mb-12 max-w-2xl mx-auto">
+        Transform your ideas into visual designs. Describe your application flow and let AI generate professional wireframes for you.
+      </p>
+      <AppContainer client:load />
+    </div>
+  </main>
+</Layout>
