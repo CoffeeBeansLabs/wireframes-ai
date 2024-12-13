@@ -1,12 +1,12 @@
 import type { APIRoute } from "astro";
-import AnthropicBedrock from "@anthropic-ai/sdk";
+import Anthropic from "@anthropic-ai/sdk";
 
 import dotenv from "dotenv";
 import buildPrompt from "../../utils/prompt";
 
 dotenv.config();
 
-const client = new AnthropicBedrock({
+const client = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
