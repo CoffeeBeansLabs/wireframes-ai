@@ -13,3 +13,9 @@ export interface ApiResponse {
   response: string;
   error?: string;
 }
+
+export interface FilePreviewInfo {
+  type: 'image' | 'document';
+  url?: string;
+  iconUrl?: string;
+}
