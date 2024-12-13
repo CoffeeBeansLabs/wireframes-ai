@@ -38,7 +38,7 @@ export function FileUploadZone({ onFilesSelected }: FileUploadZoneProps) {
               name="files" 
               type="file" 
               multiple 
-              accept=".jpg,.jpeg,.png,.pdf"
+              accept="*/*"
               class="sr-only"
               onChange={(e) => {
                 const input = e.currentTarget;
@@ -51,7 +51,7 @@ export function FileUploadZone({ onFilesSelected }: FileUploadZoneProps) {
           <p class="pl-1">or drag and drop</p>
         </div>
         <p class="text-xs text-gray-500">
-          JPG, PNG, PDF up to 5MB each (max 3 files)
+          Any file type up to 5MB each (max 3 files)
         </p>
       </div>
     </div>

@@ -6,7 +6,8 @@ export default {
       colors: {
         primary: {
           DEFAULT: '#646cff',
-          hover: '#7c83ff',
+          hover: '#747bff',
+          dark: '#4f46e5',
         },
         dark: {
           DEFAULT: '#13151a',
@@ -16,8 +17,15 @@ export default {
       },
       animation: {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'slide-in': 'slideIn 0.5s ease-out forwards',
+        'fade-in': 'fadeIn 0.5s ease-out forwards',
+      },
+      maxWidth: {
+        '8xl': '1400px',
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 };
