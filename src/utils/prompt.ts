@@ -27,7 +27,7 @@ const displayWireframesTool = {
             image: {
               type: "string" as const,
               description:
-                "SVG code for the generated wireframe for the given screen, such that it can be set as innerHTML of an element.",
+                'SVG code for the generated wireframe for the given screen, such that it can be set as innerHTML of an element. Always set width="100%" and height="auto" on the <svg> tag.',
             },
           },
         },

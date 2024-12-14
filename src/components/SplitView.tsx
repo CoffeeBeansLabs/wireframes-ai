@@ -49,9 +49,9 @@ export function SplitView() {
           <ProjectForm onSubmit={handleFormSubmit} isLoading={isLoading} />
         </div>
       ) : (
-        <div class="max-w-10xl space-y-6 grid grid-cols-2 gap-6">
+        <div class="space-y-6 grid grid-cols-2 gap-6">
           {/* Response Section */}
-          <div class="bg-white rounded-lg p-6 animate-slide-in">
+          <div class="max-w-6xl bg-white rounded-lg p-6 animate-slide-in">
             {messages.map((message) => (
               <div
                 class="prose max-w-none"
@@ -69,7 +69,7 @@ export function SplitView() {
                 ?.content.preview.map((svg, index) => (
                   <div
                     key={index}
-                    class="border rounded-lg p-4 hover:shadow-lg transition-shadow duration-200"
+                    class="wireframe-container border rounded-lg p-4 hover:shadow-lg transition-shadow duration-200"
                     dangerouslySetInnerHTML={{ __html: svg }}
                   />
                 ))}
@@ -77,7 +77,7 @@ export function SplitView() {
           </div>
 
           {/* Chat Input */}
-          <div class="sticky bottom-0 bg-white border-t p-4 animate-slide-up">
+          <div class="sticky col-span-2 bottom-0 bg-white border-t p-4 animate-slide-up">
             <PromptForm />
           </div>
         </div>
