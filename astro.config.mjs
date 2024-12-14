@@ -9,5 +9,7 @@ import vercel from "@astrojs/vercel";
 export default defineConfig({
   integrations: [preact(), tailwind()],
   output: "server",
-  adapter: vercel(),
+  adapter: vercel({
+    maxDuration: 300,
+  }),
 });
