@@ -39,10 +39,12 @@ export const POST: APIRoute = async ({ request }) => {
 
     prompts.set(currentConversationId, prompt);
 
+    console.log(assistantMessage, conversationId);
+
     return new Response(
       JSON.stringify({
-        response: (assistantMessage.content[0] as any).input,
-        conversationId,
+        assistantMessage,
+        currentConversationId,
       }),
       {
         status: 200,

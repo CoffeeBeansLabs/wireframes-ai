@@ -1,11 +1,10 @@
 import { useState } from "preact/hooks";
 import { ProjectForm } from "./Form/ProjectForm";
-import { ChatResponse } from "./Chat/ChatResponse";
 import { PromptForm } from "./PromptForm";
-import { dummyWireframeResponse } from "../constants/dummyData";
+import { generateWireframe } from "../services/api";
 
 interface Message {
-  role: "user";
+  role: "user" | "assistant";
   content: {
     response: string;
     preview: string[];
@@ -16,24 +15,31 @@ export function SplitView() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showResponse, setShowResponse] = useState(false);
+  const [conversationId, setConversationId] = useState<string>();
 
   const handleFormSubmit = async (formData: any) => {
     setIsLoading(true);
 
-    // Simulating API call with dummy data
-    setTimeout(() => {
-      setMessages([
-        {
-          role: "user",
-          content: {
-            response: dummyWireframeResponse.code,
-            preview: dummyWireframeResponse.preview,
-          },
+    const { assistantMessage, currentConversationId } = await generateWireframe(
+      formData
+    );
+
+    setIsLoading(false);
+    setShowResponse(true);
+    setConversationId(currentConversationId);
+
+    setMessages([
+      ...messages,
+      {
+        role: "assistant",
+        content: {
+          response: assistantMessage.content[0].input.explanation,
+          preview: assistantMessage.content[0].input.wireframes.map(
+            (w) => w.image
+          ),
         },
-      ]);
-      setIsLoading(false);
-      setShowResponse(true);
-    }, 2000);
+      },
+    ]);
   };
 
   return (
@@ -43,28 +49,30 @@ export function SplitView() {
           <ProjectForm onSubmit={handleFormSubmit} isLoading={isLoading} />
         </div>
       ) : (
-        <div class="space-y-6">
-          <div class="grid grid-cols-2 gap-6">
-            {/* Response Section */}
-            <div class="bg-white rounded-lg p-6 animate-slide-in">
-              <h2 class="text-xl font-semibold mb-4">Response</h2>
-              <div class="prose prose-lg max-w-none whitespace-pre-wrap">
-                {messages[0]?.content.response}
-              </div>
-            </div>
+        <div class="max-w-10xl space-y-6 grid grid-cols-2 gap-6">
+          {/* Response Section */}
+          <div class="bg-white rounded-lg p-6 animate-slide-in">
+            {messages.map((message) => (
+              <div
+                class="prose max-w-none"
+                dangerouslySetInnerHTML={{ __html: message.content.response }}
+              ></div>
+            ))}
+          </div>
 
-            {/* Preview Section */}
-            <div class="bg-white rounded-lg p-6 animate-slide-in">
-              <h2 class="text-xl font-semibold mb-4">Preview</h2>
-              <div class="space-y-6">
-                {messages[0]?.content.preview.map((svg, index) => (
+          {/* Preview Section */}
+          <div class="bg-white rounded-lg p-6 animate-slide-in">
+            <div class="space-y-6">
+              {messages
+                .filter((m) => m.role == "assistant")
+                .at(-1)
+                ?.content.preview.map((svg, index) => (
                   <div
                     key={index}
                     class="border rounded-lg p-4 hover:shadow-lg transition-shadow duration-200"
                     dangerouslySetInnerHTML={{ __html: svg }}
                   />
                 ))}
-              </div>
             </div>
           </div>
 

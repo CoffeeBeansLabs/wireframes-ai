@@ -1,6 +1,6 @@
 import { useState } from 'preact/hooks';
 import { addMessage } from '../store/messages';
-import { sendMessage } from '../utils/api';
+import { sendMessage } from '../services/api';
 
 export function PromptForm() {
   const [isLoading, setIsLoading] = useState(false);

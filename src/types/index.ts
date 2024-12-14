@@ -1,5 +1,5 @@
 export interface Message {
-  role: 'user' | 'assistant';
+  role: "user" | "assistant";
   content: string;
 }
 
@@ -10,12 +10,13 @@ export interface FormData {
 }
 
 export interface ApiResponse {
-  response: string;
+  currentConversationId: string;
+  assistantMessage: any;
   error?: string;
 }
 
 export interface FilePreviewInfo {
-  type: 'image' | 'document';
+  type: "image" | "document";
   url?: string;
   iconUrl?: string;
 }

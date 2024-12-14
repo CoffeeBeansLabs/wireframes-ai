@@ -13,13 +13,11 @@ async function handleResponse(response: Response): Promise<ApiResponse> {
   return data;
 }
 
-export async function generateWireframe(
-  formData: FormData
-): Promise<ApiResponse> {
+export async function generateWireframe(payload: any): Promise<ApiResponse> {
   try {
     const response = await fetch(`${API_BASE_URL}/generate`, {
       method: "POST",
-      body: formData,
+      body: JSON.stringify(payload),
     });
     return handleResponse(response);
   } catch (error) {
@@ -34,20 +32,21 @@ export async function generateWireframe(
 
 export async function sendMessage(prompt: string): Promise<ApiResponse> {
   try {
-    const response = await fetch(`${API_BASE_URL}/generate`, {
+    const response = await fetch("/api/generate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ prompt }),
     });
-    return handleResponse(response);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return await response.json();
   } catch (error) {
     console.error("API Error:", error);
-    throw new Error(
-      error instanceof Error
-        ? error.message
-        : "Failed to process your request. Please try again."
-    );
+    throw new Error("Failed to process your request. Please try again.");
   }
 }

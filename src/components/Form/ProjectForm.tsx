@@ -1,10 +1,10 @@
-import { useState } from 'preact/hooks';
-import { FormField } from './FormField';
-import { LoadingButton } from './LoadingButton';
-import { ErrorMessage } from './ErrorMessage';
+import { useState } from "preact/hooks";
+import { FormField } from "./FormField";
+import { LoadingButton } from "./LoadingButton";
+import { ErrorMessage } from "./ErrorMessage";
 
 interface ProjectFormProps {
-  onSubmit: (data: FormData) => void;
+  onSubmit: (data: any) => void;
   isLoading: boolean;
 }
 
@@ -22,41 +22,59 @@ export function ProjectForm({ onSubmit, isLoading }: ProjectFormProps) {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
-    
-    const userJourney = formData.get('userJourney') as string;
-    if (!userJourney?.trim()) {
-      setError('User Journey is required');
+
+    const projectName = formData.get("projectName") as string;
+    if (!projectName?.trim()) {
+      setError("User Journey is required");
       return;
     }
 
-    const data = {
-      projectName: formData.get('projectName') as string,
-      projectBrief: formData.get('projectBrief') as string,
-      userPersona: formData.get('userPersona') as string,
-      userJourney: userJourney,
+    const projectBrief = formData.get("projectBrief") as string;
+    if (!projectBrief?.trim()) {
+      setError("User Journey is required");
+      return;
+    }
+
+    const userPersona = formData.get("userPersona") as string;
+
+    const userJourney = formData.get("userJourney") as string;
+    if (!userJourney?.trim()) {
+      setError("User Journey is required");
+      return;
+    }
+
+    const requestPayload = {
+      initialInput: {
+        projectName,
+        projectBrief,
+        userPersona,
+        userJourney,
+      },
     };
 
     setError(null);
-    onSubmit(data);
+    onSubmit(requestPayload);
   };
 
   return (
-    <form onSubmit={handleSubmit} class="space-y-6 transition-all duration-300">
-      <FormField label="Project Name (optional)" htmlFor="projectName">
+    <form onSubmit={handleSubmit} class="max-w-4xl space-y-6 transition-all duration-300">
+      <FormField label="Project Name" htmlFor="projectName">
         <input
           type="text"
           id="projectName"
           name="projectName"
+          required
           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
           placeholder="Enter project name"
         />
       </FormField>
 
-      <FormField label="Project Brief (optional)" htmlFor="projectBrief">
+      <FormField label="Project Brief" htmlFor="projectBrief">
         <textarea
           id="projectBrief"
           name="projectBrief"
           rows={3}
+          required
           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
           placeholder="Brief description of the project"
         />
@@ -72,22 +90,20 @@ export function ProjectForm({ onSubmit, isLoading }: ProjectFormProps) {
         />
       </FormField>
 
-      <FormField label="User Journey (required)" htmlFor="userJourney" required>
+      <FormField label="User Journey" htmlFor="userJourney" required>
         <textarea
           id="userJourney"
           name="userJourney"
           rows={4}
           required
           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-          placeholder="Describe the user journey (required)"
+          placeholder="Describe the user journey"
         />
       </FormField>
 
       {error && <ErrorMessage message={error} />}
 
-      <LoadingButton isLoading={isLoading}>
-        Generate Wireframes
-      </LoadingButton>
+      <LoadingButton isLoading={isLoading}>Generate Wireframes</LoadingButton>
     </form>
   );
 }
