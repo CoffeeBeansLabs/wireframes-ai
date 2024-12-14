@@ -2,8 +2,13 @@ import { useState } from "preact/hooks";
 import { addMessage } from "../store/messages";
 import { sendMessage } from "../services/api";
 
-export function PromptForm() {
-  const [isLoading, setIsLoading] = useState(false);
+export function PromptForm({
+  onSubmit,
+  isLoading,
+}: {
+  onSubmit: (prompt: string) => void;
+  isLoading: boolean;
+}) {
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: Event) => {
@@ -13,20 +18,15 @@ export function PromptForm() {
     const prompt = formData.get("prompt") as string;
 
     if (!prompt.trim()) return;
-
-    setIsLoading(true);
     setError(null);
 
     try {
-      const data = await sendMessage(prompt);
-      // addMessage('user', data.response);
+      onSubmit(prompt);
       form.reset();
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "An unexpected error occurred";
       setError(errorMessage);
-    } finally {
-      setIsLoading(false);
     }
   };
 

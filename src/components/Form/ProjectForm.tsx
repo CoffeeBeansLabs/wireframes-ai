@@ -8,13 +8,6 @@ interface ProjectFormProps {
   isLoading: boolean;
 }
 
-interface FormData {
-  projectName: string;
-  projectBrief: string;
-  userPersona: string;
-  userJourney: string;
-}
-
 export function ProjectForm({ onSubmit, isLoading }: ProjectFormProps) {
   const [error, setError] = useState<string | null>(null);
 
@@ -57,7 +50,10 @@ export function ProjectForm({ onSubmit, isLoading }: ProjectFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} class="max-w-4xl space-y-6 transition-all duration-300">
+    <form
+      onSubmit={handleSubmit}
+      class="max-w-4xl space-y-6 transition-all duration-300"
+    >
       <FormField label="Project Name" htmlFor="projectName">
         <input
           type="text"
