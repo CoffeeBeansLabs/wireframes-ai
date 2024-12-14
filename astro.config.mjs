@@ -4,8 +4,10 @@ import tailwind from "@astrojs/tailwind";
 
 import netlify from "@astrojs/netlify";
 
+import vercel from "@astrojs/vercel";
+
 export default defineConfig({
   integrations: [preact(), tailwind()],
   output: "server",
-  adapter: netlify(),
+  adapter: vercel(),
 });
